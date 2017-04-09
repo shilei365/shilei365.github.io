@@ -216,6 +216,85 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2017/04/09/keeping-xctest-on-linux/">
+                            在Linux上保持XCtest同步
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-04-09T11:41:01+02:00">
+	
+		    09 Apr 2017
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>作者 Ole Begemann</p>
+<p><a href="https://oleb.net/blog/2017/03/keeping-xctest-in-sync/" target="_blank" rel="external">原文链接</a></p>
+<p><a href="https://swift.org/about/#platform-support" target="_blank" rel="external">Swfit是跨平台的</a>，但在Apple平台中和在其他系统中运作方式并不一致，主要因为两个原因：</p>
+<ul>
+<li><a href="https://developer.apple.com/reference/objectivec/objective_c_runtime" target="_blank" rel="external">Objective-C runtime</a> 仅适用于Apple平台</li>
+<li>在非Apple系统中，<a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">Foundation</a>框架和其他的<a href="https://swift.org/core-libraries/" target="_blank" rel="external">核心库</a>的实现方法是不同的。 这就意味着有些Foundation API可能会在macOS／iOS和Linux下产生不同的结果(虽然既定目标是无差异的实现)，甚至是还不能被完整执行。</li>
+</ul>
+<p>因此，如果你写一个并非仅仅在Apple上执行的库，那么在macOS／iOS下和在Linux下测试你的代码将是一个很好的主意。</p>
+<h4 id="在Linux下发现测试"><a href="#在Linux下发现测试" class="headerlink" title="在Linux下发现测试"></a>在Linux下发现测试</h4><p>任何的Unit Testing框架都必须要能发现那些它要运行的测试。在Apple平台，<a href="https://developer.apple.com/reference/xctest" target="_blank" rel="external">XCTest框架</a>使用Objective-C runtime枚举了一个测试目标(Target)中所有的测试单元和其中的方法。然而因为Objective-C runtime在Linux下并不可用，同时swift runtime目前还达到同样的功能，因此在Linux下XCTest就<a href="https://github.com/apple/swift-corelibs-xctest/blob/master/Documentation/Linux.md#additional-considerations-for-swift-on-linux" target="_blank" rel="external">需要开发者提供一个明确的测试列表</a>去执行。</p>
+<h4 id="allTests-属性"><a href="#allTests-属性" class="headerlink" title="allTests 属性"></a>allTests 属性</h4><p>这项工作(可以方便的通过<a href="https://swift.org/package-manager/" target="_blank" rel="external">Swfit包管理器</a>创建)的方法是额外的添加一个名为<code>allTests</code>的属性到你<a href="https://developer.apple.com/reference/xctest/xctestcase" target="_blank" rel="external">XCTestCase</a>的每个子类中，一个测试方法和名字的列表作为这个属性的返回值。例如，一个只包含了单个测试方法的类可能是这样的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Tests/BananaKitTests/BananaTests.swift</span></div><div class="line"><span class="keyword">import</span> XCTest</div><div class="line"><span class="keyword">import</span> BananaKi t</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BananaTests</span>: <span class="title">XCTestCase</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">var</span> allTests = [</div><div class="line">        (<span class="string">"testYellowBananaIsRipe"</span>, testYellowBananaIsRipe),</div><div class="line">    ]</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">func</span> <span class="title">testYellowBananaIsRipe</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">let</span> banana = <span class="type">Banana</span>(color: .yellow)</div><div class="line">        <span class="type">XCTAssertTrue</span>(banana.isRipe)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="LinuxMain-swift"><a href="#LinuxMain-swift" class="headerlink" title="LinuxMain.swift"></a>LinuxMain.swift</h4><p>包管理器会创建另一个名为<code>LinuxMain.swift</code>的文件，在非Apple平台上这个文件将作为测试的运行者(test runner)。 它包含了一个对<code>XCTMain(_:)</code>的调用，在这个调用中你必须列出所有的测试单元：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Tests/LinuxMain.swift</span></div><div class="line"><span class="keyword">import</span> XCTest</div><div class="line"><span class="meta">@testable</span> <span class="keyword">import</span> BananaKitTests</div><div class="line"></div><div class="line"><span class="type">XCTMain</span>([</div><div class="line">    testCase(<span class="type">BananaTests</span>.allTests),</div><div class="line">])</div></pre></td></tr></table></figure>
+<h4 id="手动维护是很容易忘记的"><a href="#手动维护是很容易忘记的" class="headerlink" title="手动维护是很容易忘记的"></a>手动维护是很容易忘记的</h4><p>这个方法显然并不完美，因为它需要在两个地方去手动维护：</p>
+<ol>
+<li>每次你添加一个新的测试，你都必须在类中<code>allTests</code>属性中也添加。</li>
+<li>每次你创建一个新的测试单元，你都必须也添加在<code>LinuxMain.swift</code>的<code>XCTMain</code>中。</li>
+</ol>
+<p>这两步都是很容易被忘记的。甚至更糟糕，当你不可避免的忘记了其中一个，并不会有什么明显的错误发生 - 在Linux上你的测试仍然被通过，如果你不手动对比在macOS上和在Linux上被执行的测试数目， 你甚至可能不会注意到有些测试在Linux上并没有被运行。</p>
+<p>这种情况在我这里已经出现过很多次了，所以我决定对此做点什么。</p>
+<h4 id="保障测试-防止疏忽"><a href="#保障测试-防止疏忽" class="headerlink" title="保障测试 防止疏忽"></a>保障测试 防止疏忽</h4><p>让我们建立一个机制，当我们忘了其中一项时，这个机制能自动的使测试单元失败。我们将添加下面的测试到每个<code>XCTestCase</code>类中(以及它们的<code>allTests</code>属性中)：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BananaTests</span>: <span class="title">XCTestCase</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> allTests = [</div><div class="line">        (<span class="string">"testLinuxTestSuiteIncludesAllTests"</span>,</div><div class="line">         testLinuxTestSuiteIncludesAllTests),</div><div class="line">        <span class="comment">// Your other tests here...</span></div><div class="line">    ]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testLinuxTestSuiteIncludesAllTests</span><span class="params">()</span></span> &#123;</div><div class="line">        #<span class="keyword">if</span> os(macOS) || os(iOS) || os(tvOS) || os(watchOS)</div><div class="line">            <span class="keyword">let</span> thisClass = type(of: <span class="keyword">self</span>)</div><div class="line">            <span class="keyword">let</span> linuxCount = thisClass.allTests.<span class="built_in">count</span></div><div class="line">            <span class="keyword">let</span> darwinCount = <span class="type">Int</span>(thisClass</div><div class="line">                .defaultTestSuite().testCaseCount)</div><div class="line">            <span class="type">XCTAssertEqual</span>(linuxCount, darwinCount,</div><div class="line">                <span class="string">"<span class="subst">\(darwinCount - linuxCount)</span> tests are missing from allTests"</span>)</div><div class="line">        #endif</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Your other tests here...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个测试对比了<code>allTests</code>属性数组中的数目和通过Objective-C runtime发现的测试数目，如果两者有差异，那么这个测试将会失败。这正是我们想要的啊！<br>(依赖Obj-C runtime意味着这个测试只能在Apple平台上工作，在Linux上它将不能被编译，所以我们需要把它写在<code>#if os(macOS)...</code>中)</p>
+<h4 id="当你忘记添加一个测试到allTests中时，测试失败"><a href="#当你忘记添加一个测试到allTests中时，测试失败" class="headerlink" title="当你忘记添加一个测试到allTests中时，测试失败"></a>当你忘记添加一个测试到<code>allTests</code>中时，测试失败</h4><p>为了验证这点，让我们添加一个其他的测试，这次“忘记”了去升级<code>allTests</code>:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> XCTest</div><div class="line"><span class="keyword">import</span> BananaKit</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BananaTests</span>: <span class="title">XCTestCase</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> allTests = [</div><div class="line">        (<span class="string">"testLinuxTestSuiteIncludesAllTests"</span>,</div><div class="line">         testLinuxTestSuiteIncludesAllTests),</div><div class="line">        (<span class="string">"testYellowBananaIsRipe"</span>, testYellowBananaIsRipe),</div><div class="line">        <span class="comment">// testGreenBananaIsNotRipe is missing!</span></div><div class="line">    ]</div><div class="line"></div><div class="line">    <span class="comment">// ...</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testGreenBananaIsNotRipe</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">let</span> banana = <span class="type">Banana</span>(color: .green)</div><div class="line">        <span class="type">XCTAssertFalse</span>(banana.isRipe)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在当你运行这个测试在macOS上时，我们的保障测试程序将会失败：</p>
+<p><img src="/2017/04/09/keeping-xctest-on-linux/xcode-xctest-linux-safeguard-1550px.png" alt="因为我们忘了添加一个测试到`allTests`数组中，所以测试失败了"></p>
+<h6 id="因为我们忘了添加一个测试到allTests数组中，所以测试失败了"><a href="#因为我们忘了添加一个测试到allTests数组中，所以测试失败了" class="headerlink" title="(因为我们忘了添加一个测试到allTests数组中，所以测试失败了)"></a>(<em>因为我们忘了添加一个测试到<code>allTests</code>数组中，所以测试失败了</em>)</h6><p>我非常喜欢这个。很显然，只有当你希望<code>allTests</code>属性数组中包含每个测试时它才有用。也就是说，你将必须像上面所做的那样在条件编译块中包含进去任何针对Darwin或Linux的测试。我相信对于大部分代码库来说这是一个可以接受的限制。</p>
+<h4 id="保障-LinuxMain-swift"><a href="#保障-LinuxMain-swift" class="headerlink" title="保障 LinuxMain.swift"></a>保障 LinuxMain.swift</h4><p>另一个问题呢，验证<code>LinuxMain.swift</code>是否完整？ 这个更难。<code>LinuxMain.swift</code>不是(或者说 不能是)当前测试目标(Target)的一部分，所以你很难轻易的验证在<code>XCTMain</code>中有些什么。</p>
+<p><img src="/2017/04/09/keeping-xctest-on-linux/xcode-adding-LinuxMain-to-test-target-1400px.png" alt="当你试着添加`LinuxMain.swift`到测试目标时将会出现错误"></p>
+<h6 id="当你试着添加LinuxMain-swift到测试目标时将会出现错误"><a href="#当你试着添加LinuxMain-swift到测试目标时将会出现错误" class="headerlink" title="(当你试着添加LinuxMain.swift到测试目标时将会出现错误)"></a>(<em>当你试着添加<code>LinuxMain.swift</code>到测试目标时将会出现错误</em>)</h6><p>我能想到的唯一的解决办法可能是添加一个<em>Run Script</em>到你的测试目标中，用脚本去解析<code>LinuxMain.swift</code>中的代码，然后用某种方法去比较测试目标中数组的个数和测试单元的个数。我没有试过，但听起来很复杂。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>即使用新的测试，事情也还远远达不到完美，因为还有两个事情你有可能会忘记。每次你创建一个新的XCTestCase类，你必须：</p>
+<ol>
+<li>复制粘贴 <code>testLinuxTestSuiteIncludesAllTests</code> 测试到新的类中。</li>
+<li>更新 <code>LinuxMain.swift</code>。</li>
+</ol>
+<p>然而，我觉得这已经比之前好很多了， 因为这个新测试涵盖了绝大多数情况 - 在已有的测试目标中添加了一个测试并忘记了更新<code>allTests</code>数组。</p>
+<p>我并不期待Swift的映射能力能变的强大到使这一切都不再被需要。</p>
+
+                    
+                        
+                    
+                    
+                        <p>
+                            <a href="/2017/04/09/keeping-xctest-on-linux/#post-footer" class="postShorten-excerpt_link link">
+                                Kommentieren und teilen
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2017/04/05/The-New-Post/">
                             柏林行政区划分
                         </a>
@@ -248,13 +327,6 @@
                 </div>
             
         </div>
-        
-            <a href="/2017/04/05/The-New-Post/">
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" itemprop="image" src="undefined"/>
-                </div>
-            </a>
-            
         
     </article>
     
@@ -355,6 +427,25 @@
                     <hr>
                 </div>
                 
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                            <h3 class="media-heading">在Linux上保持XCtest同步</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Apr 9, 2017
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
             </div>
         </div>
         <div class="modal-footer">
@@ -362,7 +453,7 @@
                 data-message-zero="keinen Beitrag gefunden"
                 data-message-one="1 Beitrag gefunden"
                 data-message-other="{n} Einträge gefunden">
-                1 Beitrag gefunden
+                2 Einträge gefunden
             </p>
         </div>
     </div>

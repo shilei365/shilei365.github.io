@@ -6,17 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Lei Shi">
-    <title>Archiv: 2017 - Lei Shi</title>
+    <title>在Linux上保持XCtest同步 - Lei Shi</title>
     <meta name="author" content="Lei Shi">
     
     
     
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Lei Shi">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+    <meta name="description" content="作者 Ole Begemann 原文链接 Swfit是跨平台的，但在Apple平台中和在其他系统中运作方式并不一致，主要因为两个原因：  Objective-C runtime 仅适用于Apple平台 在非Apple系统中，Foundation框架和其他的核心库的实现方法是不同的。 这就意味着有些Foundation API可能会在macOS／iOS和Linux下产生不同的结果(虽然既定目标是无差">
+<meta name="keywords">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="在Linux上保持XCtest同步">
+<meta property="og:url" content="http://yoursite.com/2017/04/09/keeping-xctest-on-linux/index.html">
 <meta property="og:site_name" content="Lei Shi">
+<meta property="og:description" content="作者 Ole Begemann 原文链接 Swfit是跨平台的，但在Apple平台中和在其他系统中运作方式并不一致，主要因为两个原因：  Objective-C runtime 仅适用于Apple平台 在非Apple系统中，Foundation框架和其他的核心库的实现方法是不同的。 这就意味着有些Foundation API可能会在macOS／iOS和Linux下产生不同的结果(虽然既定目标是无差">
+<meta property="og:image" content="http://yoursite.com/2017/04/09/keeping-xctest-on-linux/xcode-xctest-linux-safeguard-1550px.png">
+<meta property="og:image" content="http://yoursite.com/2017/04/09/keeping-xctest-on-linux/xcode-adding-LinuxMain-to-test-target-1400px.png">
+<meta property="og:updated_time" content="2017-04-09T20:22:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lei Shi">
+<meta name="twitter:title" content="在Linux上保持XCtest同步">
+<meta name="twitter:description" content="作者 Ole Begemann 原文链接 Swfit是跨平台的，但在Apple平台中和在其他系统中运作方式并不一致，主要因为两个原因：  Objective-C runtime 仅适用于Apple平台 在非Apple系统中，Foundation框架和其他的核心库的实现方法是不同的。 这就意味着有些Foundation API可能会在macOS／iOS和Linux下产生不同的结果(虽然既定目标是无差">
+<meta name="twitter:image" content="http://yoursite.com/2017/04/09/keeping-xctest-on-linux/xcode-xctest-linux-safeguard-1550px.png">
     
     
         
@@ -45,7 +53,7 @@
         
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">Lei Shi</a>
@@ -69,7 +77,7 @@
         
     
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -202,26 +210,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/04/09/keeping-xctest-on-linux/">
-                            在Linux上保持XCtest同步
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            在Linux上保持XCtest同步
+        </h1>
+    
+    
+        <div class="post-meta">
     <time itemprop="datePublished" datetime="2017-04-09T11:41:01+02:00">
 	
 		    09 Apr 2017
@@ -230,10 +234,12 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>作者 Ole Begemann</p>
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>作者 Ole Begemann</p>
 <p><a href="https://oleb.net/blog/2017/03/keeping-xctest-in-sync/" target="_blank" rel="external">原文链接</a></p>
 <p><a href="https://swift.org/about/#platform-support" target="_blank" rel="external">Swfit是跨平台的</a>，但在Apple平台中和在其他系统中运作方式并不一致，主要因为两个原因：</p>
 <ul>
@@ -272,73 +278,82 @@
 <p>然而，我觉得这已经比之前好很多了， 因为这个新测试涵盖了绝大多数情况 - 在已有的测试目标中添加了一个测试并忘记了更新<code>allTests</code>数组。</p>
 <p>我并不期待Swift的映射能力能变的强大到使这一切都不再被需要。</p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/04/09/keeping-xctest-on-linux/#post-footer" class="postShorten-excerpt_link link">
-                                Kommentieren und teilen
-                            </a>
-                        </p>
-                    
-                </div>
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/05/The-New-Post/"  data-tooltip="柏林行政区划分">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/04/05/The-New-Post/">
-                            柏林行政区划分
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-04-05T23:08:07+02:00">
-	
-		    05 Apr 2017
-    	
-    </time>
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p><img src="/2017/04/05/The-New-Post/berlin-neighborhood-map.png" alt="Berlin&#39;s Bezirke"></p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/04/05/The-New-Post/#post-footer" class="postShorten-excerpt_link link">
-                                Kommentieren und teilen
-                            </a>
-                        </p>
-                    
-                </div>
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-facebook-official"></i>
+                </a>
+            </li>
+        
             
-        </div>
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">Seite 1 von 1</li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+        
+    </div>
+</article>
 
 
 
@@ -349,6 +364,104 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/05/The-New-Post/"  data-tooltip="柏林行政区划分">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-facebook-official"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </li>
+        
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-facebook-official"></i><span>Teilen auf Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-twitter"></i><span>Teilen auf Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/04/09/keeping-xctest-on-linux/">
+                    <i class="fa fa-google-plus"></i><span>Teilen auf Google Plus</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -464,6 +577,8 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-ivwiy10zeb8fifc4swnhkwneuk64y53w2scmdmtp8thi9cqfxh31aowtroaz.min.js"></script>
 <!--SCRIPTS END-->
+
+    
 
 
     </body>
