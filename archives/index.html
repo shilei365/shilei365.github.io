@@ -216,15 +216,15 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/09/18/modern-user-interaction-on-ios/">
-                            (kein Titel)
+                        <a class="link-unstyled" href="/2017/09/09/modern-user-interaction-on-ios/">
+                            精通 UIKit UIGestureRecognizer System
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-18T23:17:19+02:00">
+    <time itemprop="datePublished" datetime="2017-09-09T11:41:01+02:00">
 	
-		    18 Sep 2017
+		    09 Sep 2017
     	
     </time>
     
@@ -233,19 +233,19 @@
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="精通-UIKit-UIGestureRecognizer-System"><a href="#精通-UIKit-UIGestureRecognizer-System" class="headerlink" title="精通 UIKit UIGestureRecognizer System"></a>精通 UIKit UIGestureRecognizer System</h1><p>这篇文章讲解了UIGestureRecognizer系统的交互原理，介绍了iOS11中新添加的手势API，以及Drag and Drap对现有的手势识别器有什么影响。</p>
+                    <p>这篇文章讲解了UIGestureRecognizer系统的交互原理，介绍了iOS11中新添加的手势API，以及Drag and Drap对现有的手势识别器有什么影响。</p>
 <h2 id="1-UITouch-和-UIGestureRecognizer"><a href="#1-UITouch-和-UIGestureRecognizer" class="headerlink" title="1. UITouch 和 UIGestureRecognizer"></a>1. UITouch 和 UIGestureRecognizer</h2><p>UITouch是手指触摸屏幕这一事件的代理，从触摸开始(began)到取消(cancelled)再到结束(ended)，它代表了和屏幕的一个完整的交互行为。而UIGestureRecognizer是一个抽象类，可以通过设定目标(Target)和动作(Action)使其作用于视图(UIView)上。iOS定义了所有常见的手势，例如点击(Tap)，滑动(Pan)或者捏合(Pinch), 并且提供了相应的方法来协调处理不同手势。</p>
 <p>为了更好的理解，先来看一个例子。 一个UIView，以及一个Touch Handling作为响应器(Responser)作用于这个View上。我们先进行一个点击动作，当手指触摸在这个View上时，一个UITouch开始于状态<code>began</code>。系统会把这个状态发送给所有相关的手势识别器(UIGestureRecognizer)，在本例中也就是这个点击手势识别器(UITapGestureRecognizer). 点击识别器会从初始的默认状态<code>possible</code>变为<code>began</code>, 由此触发了Touch Handling中的方法<code>began</code>。</p>
 <p>当手指离开View，UITouch状态会相应的变成<code>ended</code>，点击手势识别器状态随后也变为<code>ended</code>, 并且触发Touch Handling中的<code>cancelled</code>方法。如图1.</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-01.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-01.png" alt=""></p>
 <p>UIGestureRecognizer三个经常用到属性以及它们的默认值，如图2</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-02.png" alt=""><br>​<br>需要注意的是，如果 <code>var delaysTouchesBegan</code>设置为<code>true</code>，那触摸响应将会被忽略。<br>​    </p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-02.png" alt=""><br>​<br>需要注意的是，如果 <code>var delaysTouchesBegan</code>设置为<code>true</code>，那触摸响应将会被忽略。<br>​    </p>
 <h3 id="同步识别"><a href="#同步识别" class="headerlink" title="同步识别"></a>同步识别</h3><p>让我们再看另外一个例子。当同时存在两个手势识别器时，例如一个是滑动(PanGestureRecognizer)，另一个是点击(TapGestureRecognizer)，如果手指在View上拖动，即使移动距离没有超过Tap手势识别器允许的最大范围，也就是说动作仍然在Tap手势所允许的范围内，然而Tap手势识别器依然会在Touch动作尚未结束前变成<code>failed</code>状态，从而导致Pan手势识别器被终止，如图3。</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-03.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-03.png" alt=""></p>
 <p>这是因为系统默认只允许一个手势识别器被执行。针对这种情况就需要用到<code>UIGestureRecognizerDelegate</code>中的方法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, </div><div class="line">shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</div></pre></td></tr></table></figure>
 <p>这个方法可以让两个手势识别器保持同步识别从而避免上述的问题出现。需要注意的是，尽管返回<code>true</code>可以保证两个识别器同步识别，但返回<code>false</code>却不一定能阻止同步识别，因为在另外的手势识别器代理中该方法可能也被设为了<code>true</code>，如图4。</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-04.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-04.png" alt=""></p>
 <h3 id="Failure-Requirements"><a href="#Failure-Requirements" class="headerlink" title="Failure Requirements"></a>Failure Requirements</h3><p>然而，因为同步识别使得两个手势识别器都被触发，但以什么顺序发生却无法被控制，由此可能会产生一些并不是我们期待的结果。</p>
 <p>如果我们想要一个识别器等到另一个识别器失效后再发送动作，那么就需要用到失效请求(Failure Requirements)。这涉及到处理两个手势之间的关系，例如如果不希望在双击(Double Tap)的同时触发两次单击(Single Tap)，或者希望等到Tap失效后再触发Pan的动作，我们可以用到<code>UIGestureRecognizer</code>中一个比较静态的方法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">func require(toFail otherGestureRecognizer: UIGestureRecognizer)</div></pre></td></tr></table></figure>
@@ -258,18 +258,18 @@
 <p>另外， 一些UIView的属性也会影响到命中测试的运行，例如下面的这些：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">class UIView : NSObject &#123;</div><div class="line">	</div><div class="line">	var isUserInteractionEnabled: Bool</div><div class="line">	</div><div class="line">	var alpha: CGFloat</div><div class="line">	var isHidden: Bool</div><div class="line">	</div><div class="line">	var isMultipleTouchEnabled: Bool</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="新添属性"><a href="#新添属性" class="headerlink" title="新添属性"></a>新添属性</h3><p>在iOS11中UIGestureRecognizer有了一个新的属性<code>name</code>, 如图5。</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-05.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-05.png" alt=""></p>
 <p>这个属性主要是方便在调试的时候区分不同的手势而不需要像以前一样去查看每个动作方法。</p>
 <h3 id="自定义手势识别器-Custom-UIGestureRecognizer"><a href="#自定义手势识别器-Custom-UIGestureRecognizer" class="headerlink" title="自定义手势识别器 (Custom UIGestureRecognizer)"></a>自定义手势识别器 (Custom UIGestureRecognizer)</h3><p>对于自定义手势，一个原则是“晚点开始，尽快结束”（Begin late and fail fast)。 如果开始的过早那么别的手势可能就无法被执行，类似的，自定义手势应该尽早的失效以免影响到别的手势的失效请求(Failure Requirements)。</p>
 <p>对于不属于这个手势的触摸应该使用方法<code>ignore(_ touch:, for: event:)</code>去忽略掉。<br>最后需要注意的是不要忘记使用<code>touchCancelled(_ with:)</code>方法去取消一个触摸。由于Drag and Drop功能的加入，这个方法会被使用的更加频繁。</p>
 <h2 id="2-控制系统手势交互-System-Gesture-Interaction"><a href="#2-控制系统手势交互-System-Gesture-Interaction" class="headerlink" title="2. 控制系统手势交互(System Gesture Interaction)"></a>2. 控制系统手势交互(System Gesture Interaction)</h2><p>有时，一些特殊的系统手势会阻碍到你App中的应用手势，例如当用户从屏幕底部向上滑动时，他有可能是想调出控制中心来进行一些快捷操作，也有可能只是想向上拖动App中的视图。在此之前系统只能靠一些推测来判定用户意图。例如，如果顶部的状态栏被隐藏那么从底部上划时，也就是调出控制中心这一系统手势会能推迟。当然这种猜测并不总是准确的。</p>
 <p>在iOS11中对于这种情况不再需要猜测，你可以在你的App中决定系统手势什么时候被延迟，在哪里被延迟。对此你需要用到一个新的API:<br><code>preferredScreenEdgesDeferringSystemGestures() -&gt; UIRectEdge</code>, 如图6。</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-06.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-06.png" alt=""></p>
 <p>在UIViewController中重载这个方法能让你设定在哪些地方系统手势会被延迟，从而确保你App内的应用手势可以被优先识别出来。如果你想动态的改变这个设定，只需要调用<code>setNeedsUpdateOfScreenEdgesDeferringSystemGestures()</code>这个方法来告知系统。</p>
 <p>然而，如非沉浸式的游戏或画画的应用，尽量不要推迟系统手势。因为这样一方面可能会有违用户的使用习惯，另外一方面有很多应用手势并不会和系统手势冲突，例如轻点(Tap), 捏合(Pinch)，旋转(Rotate)，长按(Long Press)，对于这种手势完全没必要去控制系统手势。</p>
 <h2 id="3-UIDragInteraction对现有手势识别的影响"><a href="#3-UIDragInteraction对现有手势识别的影响" class="headerlink" title="3. UIDragInteraction对现有手势识别的影响"></a>3. UIDragInteraction对现有手势识别的影响</h2><p>Drag and Drop 是iOS11最新引入的一项技术，这使得用户可以用一种更有趣的方式和App进行交互。在此我们主要介绍一下添加了拖动(Drag)功能之后会对已存在的手势有什么影响。</p>
 <p>首先我们先了解一下如何添加拖动(Drag)。在iOS11中有一个新的类<code>UIDragInteraction</code>, 这个类使用起来非常简单，你只需要指定一个代理(delegate)并把这个<code>UIDragInteraction</code>添加到View上就行，如图7。</p>
-<p><img src="/2017/09/18/modern-user-interaction-on-ios/wwdc2017-session219-07.png" alt=""></p>
+<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-07.png" alt=""></p>
 <p>然而，如果我们在同一个View上再添加一个长按手势(UILongPressGestureRecognizer)，那么当我们长按并拖动这个View时，长按手势会被推迟，长按手势触发的动作自然也无法被调用。如果我们希望长按手势被识别，那么我们需要在这个View长按并保持住，这样长按手势的状态就会变为<code>began</code>。</p>
 <p>在例如iPad上分屏这样的紧凑视图界面中，如果添加了拖动功能，那么长按手势将会被推迟到触摸结束，因此我们需要长按然后松开手指才能使得长按手势变成<code>began</code>的状态。</p>
 <p>尽管适配<code>UIDragInteraction</code>是非常简单的，但我们还有几点建议：</p>
@@ -287,7 +287,7 @@
                     
                     
                         <p>
-                            <a href="/2017/09/18/modern-user-interaction-on-ios/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/2017/09/09/modern-user-interaction-on-ios/#post-footer" class="postShorten-excerpt_link link">
                                 Kommentieren und teilen
                             </a>
                         </p>
@@ -538,13 +538,13 @@
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="http://yoursite.com/2017/09/18/modern-user-interaction-on-ios/">
-                            <h3 class="media-heading"></h3>
+                        <a class="link-unstyled" href="http://yoursite.com/2017/09/09/modern-user-interaction-on-ios/">
+                            <h3 class="media-heading">精通 UIKit UIGestureRecognizer System</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
                                 
-                                    Sep 18, 2017
+                                    Sep 9, 2017
                                 
                             </span>
                         </span>
