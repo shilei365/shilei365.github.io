@@ -6,17 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="史磊的博客">
-    <title>Tag: iOS - 史磊的博客</title>
+    <title>iOS中的线程，进程和队列 - 史磊的博客</title>
     <meta name="author" content="Lei Shi">
     
     
     
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="史磊的博客">
-<meta property="og:url" content="http://yoursite.com/tags/iOS/index.html">
+    <meta name="description" content="基本概念 进程 Process： 线程 Thread：  同步 Synchro 异步 Asynchro 队列 Queue 并发 Concurrency 串行 Serial   进程 Process：一个具有一定独立功能的程序关于某个数据集合的一次运行活动。可以理解成一个运行中的应用程序。  线程 Thread：程序执行流的最小单元，线程是进程中的一个实体。可以是一行代码或者一个代码块。  同步：只">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="iOS中的线程，进程和队列">
+<meta property="og:url" content="http://yoursite.com/2017/09/18/thread-and-queue-on-ios/index.html">
 <meta property="og:site_name" content="史磊的博客">
+<meta property="og:description" content="基本概念 进程 Process： 线程 Thread：  同步 Synchro 异步 Asynchro 队列 Queue 并发 Concurrency 串行 Serial   进程 Process：一个具有一定独立功能的程序关于某个数据集合的一次运行活动。可以理解成一个运行中的应用程序。  线程 Thread：程序执行流的最小单元，线程是进程中的一个实体。可以是一行代码或者一个代码块。  同步：只">
+<meta property="og:updated_time" content="2017-09-19T21:40:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="史磊的博客">
+<meta name="twitter:title" content="iOS中的线程，进程和队列">
+<meta name="twitter:description" content="基本概念 进程 Process： 线程 Thread：  同步 Synchro 异步 Asynchro 队列 Queue 并发 Concurrency 串行 Serial   进程 Process：一个具有一定独立功能的程序关于某个数据集合的一次运行活动。可以理解成一个运行中的应用程序。  线程 Thread：程序执行流的最小单元，线程是进程中的一个实体。可以是一行代码或者一个代码块。  同步：只">
     
     
         
@@ -45,7 +50,7 @@
         
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">史磊的博客</a>
@@ -69,7 +74,7 @@
         
     
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -202,26 +207,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/09/18/thread-and-queue-on-ios/">
-                            iOS中的线程，进程和队列
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            iOS中的线程，进程和队列
+        </h1>
+    
+    
+        <div class="post-meta">
     <time itemprop="datePublished" datetime="2017-09-18T22:19:41+02:00">
 	
 		    18 Sep 2017
@@ -230,10 +231,12 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
 <li><strong>进程 Process：</strong></li>
 <li><strong>线程 Thread：</strong> </li>
 <li><strong>同步 Synchro</strong></li>
@@ -400,120 +403,90 @@
 <li>处理大量并发数据，又追求性能效率的选择GCD。</li>
 </ul>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/09/18/thread-and-queue-on-ios/#post-footer" class="postShorten-excerpt_link link">
-                                Kommentieren und teilen
-                            </a>
-                        </p>
-                    
-                </div>
             
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/09/09/modern-user-interaction-on-ios/">
-                            精通 UIKit UIGestureRecognizer System
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-09-09T11:41:01+02:00">
-	
-		    09 Sep 2017
-    	
-    </time>
-    
-</div>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/iOS/">iOS</a>
 
             </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/09/modern-user-interaction-on-ios/"  data-tooltip="精通 UIKit UIGestureRecognizer System">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>这篇文章讲解了UIGestureRecognizer系统的交互原理，介绍了iOS11中新添加的手势API，以及Drag and Drap对现有的手势识别器有什么影响。</p>
-<h2 id="1-UITouch-和-UIGestureRecognizer"><a href="#1-UITouch-和-UIGestureRecognizer" class="headerlink" title="1. UITouch 和 UIGestureRecognizer"></a>1. UITouch 和 UIGestureRecognizer</h2><p>UITouch是手指触摸屏幕这一事件的代理，从触摸开始(began)到取消(cancelled)再到结束(ended)，它代表了和屏幕的一个完整的交互行为。而UIGestureRecognizer是一个抽象类，可以通过设定目标(Target)和动作(Action)使其作用于视图(UIView)上。iOS定义了所有常见的手势，例如点击(Tap)，滑动(Pan)或者捏合(Pinch), 并且提供了相应的方法来协调处理不同手势。</p>
-<p>为了更好的理解，先来看一个例子。 一个UIView，以及一个Touch Handling作为响应器(Responser)作用于这个View上。我们先进行一个点击动作，当手指触摸在这个View上时，一个UITouch开始于状态<code>began</code>。系统会把这个状态发送给所有相关的手势识别器(UIGestureRecognizer)，在本例中也就是这个点击手势识别器(UITapGestureRecognizer). 点击识别器会从初始的默认状态<code>possible</code>变为<code>began</code>, 由此触发了Touch Handling中的方法<code>began</code>。</p>
-<p>当手指离开View，UITouch状态会相应的变成<code>ended</code>，点击手势识别器状态随后也变为<code>ended</code>, 并且触发Touch Handling中的<code>cancelled</code>方法。如图1.</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-01.png" alt=""></p>
-<p>UIGestureRecognizer三个经常用到属性以及它们的默认值，如图2</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-02.png" alt=""><br>​<br>需要注意的是，如果 <code>var delaysTouchesBegan</code>设置为<code>true</code>，那触摸响应将会被忽略。<br>​    </p>
-<h3 id="同步识别"><a href="#同步识别" class="headerlink" title="同步识别"></a>同步识别</h3><p>让我们再看另外一个例子。当同时存在两个手势识别器时，例如一个是滑动(PanGestureRecognizer)，另一个是点击(TapGestureRecognizer)，如果手指在View上拖动，即使移动距离没有超过Tap手势识别器允许的最大范围，也就是说动作仍然在Tap手势所允许的范围内，然而Tap手势识别器依然会在Touch动作尚未结束前变成<code>failed</code>状态，从而导致Pan手势识别器被终止，如图3。</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-03.png" alt=""></p>
-<p>这是因为系统默认只允许一个手势识别器被执行。针对这种情况就需要用到<code>UIGestureRecognizerDelegate</code>中的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, </div><div class="line">shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</div></pre></td></tr></table></figure>
-<p>这个方法可以让两个手势识别器保持同步识别从而避免上述的问题出现。需要注意的是，尽管返回<code>true</code>可以保证两个识别器同步识别，但返回<code>false</code>却不一定能阻止同步识别，因为在另外的手势识别器代理中该方法可能也被设为了<code>true</code>，如图4。</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-04.png" alt=""></p>
-<h3 id="Failure-Requirements"><a href="#Failure-Requirements" class="headerlink" title="Failure Requirements"></a>Failure Requirements</h3><p>然而，因为同步识别使得两个手势识别器都被触发，但以什么顺序发生却无法被控制，由此可能会产生一些并不是我们期待的结果。</p>
-<p>如果我们想要一个识别器等到另一个识别器失效后再发送动作，那么就需要用到失效请求(Failure Requirements)。这涉及到处理两个手势之间的关系，例如如果不希望在双击(Double Tap)的同时触发两次单击(Single Tap)，或者希望等到Tap失效后再触发Pan的动作，我们可以用到<code>UIGestureRecognizer</code>中一个比较静态的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">func require(toFail otherGestureRecognizer: UIGestureRecognizer)</div></pre></td></tr></table></figure>
-<p>或者使用<code>UIGestureRecognizerDelegate</code>中动态一点的两个方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, </div><div class="line">         shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</div><div class="line"></div><div class="line">func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, </div><div class="line">       shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</div></pre></td></tr></table></figure>
-<p>从这个例子可以看出，Failure requirement的作用就是阻止另外一个识别器发送多余动作。</p>
-<h3 id="Hit-Testing"><a href="#Hit-Testing" class="headerlink" title="Hit Testing"></a>Hit Testing</h3><p>为了确定由哪个View来响应手势，需要用到“命中测试”(Hit testing)。<br>当触发动作发生时，命中测试使用<strong>反向深度优先搜索</strong>算法，从根视图开始不停的询问hitTest方法触摸是否在某个View中，直到找到触摸作用最深层的那个View，系统保存它并把这个触摸事件分配给这个View。这里的最深层其实是指的最后被渲染的View，我们可以把根视图window看作做最浅层，那么最深层就是离我们最近的那层。</p>
-<p>如果你想放大或者缩小命中测试下面的两个方法通常需要被重载：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class UIView : NSObject &#123;</div><div class="line"></div><div class="line">	func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView?</div><div class="line"></div><div class="line">	func point(inside point: CGPoint, with event: UIEvent?) -&gt; Bool</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>另外， 一些UIView的属性也会影响到命中测试的运行，例如下面的这些：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">class UIView : NSObject &#123;</div><div class="line">	</div><div class="line">	var isUserInteractionEnabled: Bool</div><div class="line">	</div><div class="line">	var alpha: CGFloat</div><div class="line">	var isHidden: Bool</div><div class="line">	</div><div class="line">	var isMultipleTouchEnabled: Bool</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="新添属性"><a href="#新添属性" class="headerlink" title="新添属性"></a>新添属性</h3><p>在iOS11中UIGestureRecognizer有了一个新的属性<code>name</code>, 如图5。</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-05.png" alt=""></p>
-<p>这个属性主要是方便在调试的时候区分不同的手势而不需要像以前一样去查看每个动作方法。</p>
-<h3 id="自定义手势识别器-Custom-UIGestureRecognizer"><a href="#自定义手势识别器-Custom-UIGestureRecognizer" class="headerlink" title="自定义手势识别器 (Custom UIGestureRecognizer)"></a>自定义手势识别器 (Custom UIGestureRecognizer)</h3><p>对于自定义手势，一个原则是“晚点开始，尽快结束”（Begin late and fail fast)。 如果开始的过早那么别的手势可能就无法被执行，类似的，自定义手势应该尽早的失效以免影响到别的手势的失效请求(Failure Requirements)。</p>
-<p>对于不属于这个手势的触摸应该使用方法<code>ignore(_ touch:, for: event:)</code>去忽略掉。<br>最后需要注意的是不要忘记使用<code>touchCancelled(_ with:)</code>方法去取消一个触摸。由于Drag and Drop功能的加入，这个方法会被使用的更加频繁。</p>
-<h2 id="2-控制系统手势交互-System-Gesture-Interaction"><a href="#2-控制系统手势交互-System-Gesture-Interaction" class="headerlink" title="2. 控制系统手势交互(System Gesture Interaction)"></a>2. 控制系统手势交互(System Gesture Interaction)</h2><p>有时，一些特殊的系统手势会阻碍到你App中的应用手势，例如当用户从屏幕底部向上滑动时，他有可能是想调出控制中心来进行一些快捷操作，也有可能只是想向上拖动App中的视图。在此之前系统只能靠一些推测来判定用户意图。例如，如果顶部的状态栏被隐藏那么从底部上划时，也就是调出控制中心这一系统手势会能推迟。当然这种猜测并不总是准确的。</p>
-<p>在iOS11中对于这种情况不再需要猜测，你可以在你的App中决定系统手势什么时候被延迟，在哪里被延迟。对此你需要用到一个新的API:<br><code>preferredScreenEdgesDeferringSystemGestures() -&gt; UIRectEdge</code>, 如图6。</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-06.png" alt=""></p>
-<p>在UIViewController中重载这个方法能让你设定在哪些地方系统手势会被延迟，从而确保你App内的应用手势可以被优先识别出来。如果你想动态的改变这个设定，只需要调用<code>setNeedsUpdateOfScreenEdgesDeferringSystemGestures()</code>这个方法来告知系统。</p>
-<p>然而，如非沉浸式的游戏或画画的应用，尽量不要推迟系统手势。因为这样一方面可能会有违用户的使用习惯，另外一方面有很多应用手势并不会和系统手势冲突，例如轻点(Tap), 捏合(Pinch)，旋转(Rotate)，长按(Long Press)，对于这种手势完全没必要去控制系统手势。</p>
-<h2 id="3-UIDragInteraction对现有手势识别的影响"><a href="#3-UIDragInteraction对现有手势识别的影响" class="headerlink" title="3. UIDragInteraction对现有手势识别的影响"></a>3. UIDragInteraction对现有手势识别的影响</h2><p>Drag and Drop 是iOS11最新引入的一项技术，这使得用户可以用一种更有趣的方式和App进行交互。在此我们主要介绍一下添加了拖动(Drag)功能之后会对已存在的手势有什么影响。</p>
-<p>首先我们先了解一下如何添加拖动(Drag)。在iOS11中有一个新的类<code>UIDragInteraction</code>, 这个类使用起来非常简单，你只需要指定一个代理(delegate)并把这个<code>UIDragInteraction</code>添加到View上就行，如图7。</p>
-<p><img src="/2017/09/09/modern-user-interaction-on-ios/wwdc2017-session219-07.png" alt=""></p>
-<p>然而，如果我们在同一个View上再添加一个长按手势(UILongPressGestureRecognizer)，那么当我们长按并拖动这个View时，长按手势会被推迟，长按手势触发的动作自然也无法被调用。如果我们希望长按手势被识别，那么我们需要在这个View长按并保持住，这样长按手势的状态就会变为<code>began</code>。</p>
-<p>在例如iPad上分屏这样的紧凑视图界面中，如果添加了拖动功能，那么长按手势将会被推迟到触摸结束，因此我们需要长按然后松开手指才能使得长按手势变成<code>began</code>的状态。</p>
-<p>尽管适配<code>UIDragInteraction</code>是非常简单的，但我们还有几点建议：</p>
-<ul>
-<li>首先是你要检验现有的手势和动作是否会受到拖动手势的影响。</li>
-<li>其次你需要去处理手势识别器的<code>cancelled</code>状态，因为当拖动开始时触摸事件会被标记为<code>cancelled</code>，很多时候我们都必须对这个状态作出相应的处理。</li>
-<li>最后一点要注意的是，当拖动进行时你的App是处于完全交互的状态，所以可能会产生一些意想不到的效果，开发人员必须要对于提高警惕。</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文重点介绍了iOS中多个手势之间的相互影响和作用，以及在iOS11中如何更好的控制系统手势从而给用户更好的交互体验。最后讲解了新添加的Drag功能对已有的手势会带来哪些影响，以及开发人员应该如何更好的适配这个功能。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>视频地址：<a href="https://developer.apple.com/videos/play/wwdc2017/219/" target="_blank" rel="external">Modern User Interaction on iOS</a></p>
-<p>PPT地址：<a href="https://devstreaming-cdn.apple.com/videos/wwdc/2017/219okz4tp7uyw5n/219/219_modern_user_interaction_on_ios.pdf" target="_blank" rel="external">Modern User Interaction on iOS</a></p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/09/09/modern-user-interaction-on-ios/#post-footer" class="postShorten-excerpt_link link">
-                                Kommentieren und teilen
-                            </a>
-                        </p>
-                    
-                </div>
             
-        </div>
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-facebook-official"></i>
+                </a>
+            </li>
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">Seite 1 von 1</li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+        
+    </div>
+</article>
+
 
 
                 <footer id="footer" class="main-content-wrap">
@@ -523,6 +496,104 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/09/modern-user-interaction-on-ios/"  data-tooltip="精通 UIKit UIGestureRecognizer System">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-facebook-official"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </li>
+        
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-facebook-official"></i><span>Teilen auf Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-twitter"></i><span>Teilen auf Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://yoursite.com/2017/09/18/thread-and-queue-on-ios/">
+                    <i class="fa fa-google-plus"></i><span>Teilen auf Google Plus</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -676,6 +747,8 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-ivwiy10zeb8fifc4swnhkwneuk64y53w2scmdmtp8thi9cqfxh31aowtroaz.min.js"></script>
 <!--SCRIPTS END-->
+
+    
 
 
     </body>
